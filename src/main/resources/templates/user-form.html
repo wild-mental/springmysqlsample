@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${user.id} ? '사용자 수정' : '새 사용자 추가'"></title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        form {
+            max-width: 500px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input[type="text"], input[type="email"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .btn {
+            display: inline-block;
+            padding: 8px 16px;
+            text-decoration: none;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        .btn-cancel {
+            background-color: #f44336;
+        }
+    </style>
+</head>
+<body>
+    <h1 th:text="${user.id} ? '사용자 수정' : '새 사용자 추가'"></h1>
+    
+    <form th:action="${user.id} ? @{/users/update/{id}(id=${user.id})} : @{/users}" method="post" th:object="${user}">
+        <div class="form-group">
+            <label for="name">이름:</label>
+            <input type="text" id="name" th:field="*{name}" required />
+        </div>
+        
+        <div class="form-group">
+            <label for="email">이메일:</label>
+            <input type="email" id="email" th:field="*{email}" required />
+        </div>
+        
+        <button type="submit" class="btn">저장</button>
+        <a class="btn btn-cancel" th:href="@{/users}">취소</a>
+    </form>
+</body>
+</html> 
