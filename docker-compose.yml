@@ -7,9 +7,14 @@ services:
     ports:
       - "8080:8080"
     depends_on:
-      - mysql
+      mysql:
+        condition: service_healthy
     environment:
       SPRING_PROFILES_ACTIVE: default
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/myappdb?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Seoul
+      SPRING_DATASOURCE_USERNAME: user
+      SPRING_DATASOURCE_PASSWORD: password
+    restart: on-failure
     networks:
       - app-net
 
@@ -22,6 +27,15 @@ services:
       MYSQL_USER: user
       MYSQL_PASSWORD: password
       MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_CHARACTER_SET_SERVER: utf8mb4
+      MYSQL_COLLATION_SERVER: utf8mb4_unicode_ci
+    command: >
+      --character-set-server=utf8mb4
+      --collation-server=utf8mb4_unicode_ci
+      --default-authentication-plugin=mysql_native_password
+      --skip-character-set-client-handshake
+      --init-connect='SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci'
+      --innodb-flush-log-at-trx-commit=0
     ports:
       - "3306:3306"
     volumes:
@@ -29,9 +43,15 @@ services:
       - ./initdb:/docker-entrypoint-initdb.d
     networks:
       - app-net
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "user", "-ppassword"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
 
 volumes:
   mysql-data:
 
 networks:
-  app-net:
+  app-net: 

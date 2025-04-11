@@ -94,4 +94,4 @@ ENTRYPOINT ["java", "-Dfile.encoding=UTF-8", "-jar", "app.jar"]
 <meta charset="UTF-8">
 ```
 
-Spring Boot 3.x에서는 이미 많은 부분이 UTF-8로 기본 설정되어 있어 과거 버전들에 비해 설정이 간소화되었습니다.
+Spring Boot 3.x에서는 이미 많은 부분이 UTF-8로 기본 설정되어 있어 과거 버전들에 비해 설정이 간소화되었습니다. 
