@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.springmysqlsample.model.User;
 import com.example.springmysqlsample.service.UserService;
@@ -31,6 +32,13 @@ public class UserController {
         List<User> users = userService.getAllUsers();
         model.addAttribute("users", users);
         return "user-list";
+    }
+
+    // JSON API 엔드포인트 - 사용자 목록 반환 
+    @GetMapping("/api")
+    @ResponseBody
+    public List<User> getApiUsers() {
+        return userService.getAllUsers();
     }
 
     // 사용자 생성 폼 페이지
